@@ -1,0 +1,21 @@
+.budget-tracker {
+  margin-bottom: 10vh;
+}
+
+.budget-edit {
+  display: flex;
+  column-gap: 30px;
+}
+
+@media screen and (max-width: 768px) {
+  .budget-edit {
+    flex-direction: column;
+    width: 100%;
+  }
+  .budget-edit form {
+    flex-direction: column;
+  }
+  .budget-edit form input {
+    margin-bottom: 10px;
+  }
+}

@@ -1,0 +1,18 @@
+.page-content {
+  height: 70%;
+  width: 95%;
+  background: none;
+  border: none;
+  font-size: 1rem;
+  outline: none;
+  padding: 2.5%;
+  resize: none;
+}
+
+.wrapper.light .page-content {
+  border: 1px solid black;
+}
+
+.wrapper.dark .page-content {
+  border: 1px solid white;
+}
