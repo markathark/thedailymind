@@ -6,3 +6,13 @@
   height: 80%;
   flex-direction: column;
 }
+
+h2 {
+  font-size: 3rem;
+  font-weight: 400;
+  margin-bottom: 20px;
+}
+
+.main-edit {
+  opacity: 0.4;
+}

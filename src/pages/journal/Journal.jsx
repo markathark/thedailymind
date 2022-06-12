@@ -5,23 +5,37 @@ import getData from "../../components/getData/getData";
 import "./journal.css";
 
 const Journal = () => {
-  const [journal, setJournal] = useState(getData("journal"));
+  const [journal, setJournal] = useState(
+    getData("journal", [
+      {
+        id: uuidv4(),
+        title: "My first journal page",
+        date: new Date().toString(),
+        page: "Write your thoughts here",
+      },
+    ])
+  );
   const [title, setTitle] = useState("");
   const [edit, setEdit] = useState("");
   const [newTitle, setNewTitle] = useState("");
   const [error, setError] = useState("");
+  const [editError, setEditError] = useState("");
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    const date = new Date().toString();
-    const newTitle = {
-      id: uuidv4(),
-      title: title,
-      date: date,
-      page: "",
-    };
-    setJournal([newTitle, ...journal]);
-    setTitle("");
+    if (title === "") {
+      setError("Enter a title!");
+    } else {
+      const date = new Date().toString();
+      const newTitle = {
+        id: uuidv4(),
+        title: title,
+        date: date,
+        page: "Write your thoughts here",
+      };
+      setJournal([newTitle, ...journal]);
+      setTitle("");
+    }
   };
 
   const handleEdit = (editjournal) => {
@@ -30,12 +44,16 @@ const Journal = () => {
   };
 
   const handleEditChange = (id) => {
-    const newjournal = journal.map((item) =>
-      item.id === id ? { ...item, title: newTitle } : item
-    );
-    setJournal(newjournal);
-    setNewTitle("");
-    setEdit("");
+    if (newTitle === "") {
+      setEditError("Enter a title!");
+    } else {
+      const newjournal = journal.map((item) =>
+        item.id === id ? { ...item, title: newTitle } : item
+      );
+      setJournal(newjournal);
+      setNewTitle("");
+      setEdit("");
+    }
   };
 
   const handleDelete = (deleteId) => {
@@ -48,7 +66,7 @@ const Journal = () => {
 
   return (
     <div className="page-wrapper">
-      <h1>Journals</h1>
+      <h1>Journal</h1>
       <form onSubmit={handleSubmit}>
         <input
           type="text"
@@ -57,6 +75,7 @@ const Journal = () => {
         />
         <button>add</button>
       </form>
+      {error}
       <ul>
         {journal?.map((journal) => (
           <li key={journal.id}>
@@ -67,6 +86,7 @@ const Journal = () => {
                   value={newTitle}
                   onChange={(e) => setNewTitle(e.target.value)}
                 />
+                <span>{editError}</span>
                 <button
                   type="button"
                   onClick={(e) => handleEditChange(journal.id)}
@@ -75,17 +95,18 @@ const Journal = () => {
                 </button>
               </>
             ) : (
-              <Link to={"/journal/" + journal.id}>
-                {journal.title} {new Date(journal.date).toDateString()}
-              </Link>
-            )}{" "}
-            {error}
-            <button type="button" onClick={(e) => handleDelete(journal.id)}>
-              delete
-            </button>
-            <button type="button" onClick={(e) => handleEdit(journal)}>
-              edit name
-            </button>
+              <>
+                <Link to={"/journal/" + journal.id}>
+                  {journal.title} <i>{new Date(journal.date).toDateString()}</i>
+                </Link>
+                <button type="button" onClick={(e) => handleDelete(journal.id)}>
+                  delete
+                </button>
+                <button type="button" onClick={(e) => handleEdit(journal)}>
+                  edit name
+                </button>
+              </>
+            )}
           </li>
         ))}
       </ul>

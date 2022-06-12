@@ -54,7 +54,7 @@ const Nav = (props) => {
         </ul>
         <div className="nav-right">
           <Clock />
-          <button onClick={props.change}>
+          <button onClick={props.change} className="mode-button">
             {props.mode === "darkMode" ? (
               <IoSunnySharp alt="change to light mode" />
             ) : (

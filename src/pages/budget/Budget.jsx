@@ -1,5 +1,5 @@
 import "./budget.css";
-import { useEffect, useLayoutEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import getData from "../../components/getData/getData";
 
@@ -73,17 +73,27 @@ const Budget = () => {
 
   const saveBudgetEdit = (e, oldBudget) => {
     e.preventDefault();
-    setTotalBudget(totalBudget - oldBudget.budget + parseInt(editBudget));
-    setBudget(
-      budget.map((b) => {
-        if (b.id === oldBudget.id) {
-          return { ...b, name: editBudgetName, budget: editBudget };
-        } else {
-          return b;
-        }
-      })
-    );
-    setEdit("");
+    if (editBudget === 0 || editBudget === "") {
+      setBudgetError("Enter a budget total!");
+      return null;
+    } else if (editBudgetName === "") {
+      setBudgetError("Please name your expense!");
+      return null;
+    } else {
+      setTotalBudget(totalBudget - oldBudget.budget + parseInt(editBudget));
+      setBudget(
+        budget.map((b) => {
+          if (b.id === oldBudget.id) {
+            return { ...b, name: editBudgetName, budget: editBudget };
+          } else {
+            return b;
+          }
+        })
+      );
+      setEdit("");
+      setNewBudgetName("");
+      setBudgetError("");
+    }
   };
 
   const handleEditExpense = (exp) => {
@@ -94,17 +104,29 @@ const Budget = () => {
 
   const saveExpenseEdit = (e, oldExpense) => {
     e.preventDefault();
-    setTotalExpense(totalExpense - oldExpense.expense + parseInt(editExpense));
-    setExpenses(
-      expenses.map((b) => {
-        if (b.id === oldExpense.id) {
-          return { ...b, name: editExpenseName, expense: editExpense };
-        } else {
-          return b;
-        }
-      })
-    );
+    if (editExpense === 0 || editExpense === "") {
+      setExpenseError("Enter an expense total!");
+      return null;
+    } else if (editExpenseName === "") {
+      setExpenseError("Please name your expense!");
+      return null;
+    } else {
+      setTotalExpense(
+        totalExpense - oldExpense.expense + parseInt(editExpense)
+      );
+      setExpenses(
+        expenses.map((b) => {
+          if (b.id === oldExpense.id) {
+            return { ...b, name: editExpenseName, expense: editExpense };
+          } else {
+            return b;
+          }
+        })
+      );
+    }
     setEdit("");
+    setNewExpenseName("");
+    setExpenseError("");
   };
 
   const handleDeleteBudget = (budgetDelete) => {

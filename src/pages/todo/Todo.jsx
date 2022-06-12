@@ -1,10 +1,14 @@
-import { useState, useEffect, useLayoutEffect } from "react";
+import { useState, useEffect } from "react";
 import getData from "../../components/getData/getData";
 import { v4 as uuidv4 } from "uuid";
 import "./todo.css";
 
 const Todo = () => {
-  const [toDo, setToDo] = useState(getData("toDo"));
+  const [toDo, setToDo] = useState(
+    getData("toDo", [
+      { id: uuidv4(), desc: "My to do list item", completed: false },
+    ])
+  );
   const [newToDo, setNewToDo] = useState("");
   const [edit, setEdit] = useState("");
   const [editToDo, setEditToDo] = useState("");
@@ -92,7 +96,7 @@ const Todo = () => {
                 <button onClick={() => handleDelete(t.id)}>delete</button>
                 <button onClick={() => makeEdit(t)}>edit</button>
                 <button onClick={() => handleDone(t.id)}>
-                  {t.completed ? "undone" : "done"}
+                  {t.completed ? "unfinished" : "completed"}
                 </button>
               </>
             )}

@@ -1,9 +1,9 @@
-const getData = (dataName, zero) => {
+const getData = (dataName, origin) => {
   const data = localStorage.getItem(dataName);
   if (data) {
     return JSON.parse(data);
   } else {
-    return zero ? 0 : [];
+    return origin ? origin : [];
   }
 };
 

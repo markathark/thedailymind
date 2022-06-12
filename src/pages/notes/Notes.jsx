@@ -2,13 +2,16 @@ import Draggable from "react-draggable";
 import { useEffect, useRef, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import "./notes.css";
+import getData from "../../components/getData/getData";
 
 const Notes = () => {
   const [positions, setPositions] = useState(
-    JSON.parse(localStorage.getItem("notesPositions"))
+    getData("notesPositions", { "first-id": { x: 0, y: -66 } })
   );
   const [notes, setNotes] = useState(
-    JSON.parse(localStorage.getItem("previousNotes"))
+    getData("previousNotes", [
+      ["first-id", "My first post it! Click and drag me around", true],
+    ])
   );
   const [newNote, setNewNote] = useState("");
   let nodeRef = useRef(null);
@@ -68,9 +71,9 @@ const Notes = () => {
         <Draggable
           defaultPosition={
             positions === null
-              ? { x: 90, y: 90 }
+              ? { x: 0, y: 0 }
               : !positions[item[0]]
-              ? { x: 50, y: 100 }
+              ? { x: 0, y: 0 }
               : { x: positions[item[0]].x, y: positions[item[0]].y }
           }
           position={null}
