@@ -6,11 +6,9 @@ import getData from "../../components/getData/getData";
 const Budget = () => {
   const [remaining, setRemaining] = useState(0);
   const [budget, setBudget] = useState(getData("budget"));
-  const [totalExpense, setTotalExpense] = useState(
-    getData("totalExpense", true)
-  );
+  const [totalExpense, setTotalExpense] = useState(getData("totalExpense", 0));
   const [expenses, setExpenses] = useState(getData("expenses"));
-  const [totalBudget, setTotalBudget] = useState(getData("totalBudget", true));
+  const [totalBudget, setTotalBudget] = useState(getData("totalBudget", 0));
   const [budgetError, setBudgetError] = useState("");
   const [expenseError, setExpenseError] = useState("");
   const [edit, setEdit] = useState("");
@@ -35,7 +33,7 @@ const Budget = () => {
       return null;
     } else {
       setBudget([
-        { budget: newBudget, name: newBudgetName, id: uuidv4() },
+        { budget: parseInt(newBudget), name: newBudgetName, id: uuidv4() },
         ...budget,
       ]);
       setTotalBudget(parseInt(totalBudget) + parseInt(newBudget));
@@ -55,7 +53,7 @@ const Budget = () => {
       return null;
     } else {
       setExpenses([
-        { name: newExpenseName, expense: newExpense, id: uuidv4() },
+        { name: newExpenseName, expense: parseInt(newExpense), id: uuidv4() },
         ...expenses,
       ]);
       setTotalExpense(parseInt(totalExpense) + parseInt(newExpense));
